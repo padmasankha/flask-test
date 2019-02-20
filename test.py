@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import jsonify
 from flask import request
-
+import cx_Oracle
 
 
 app = Flask(__name__)
@@ -19,6 +19,14 @@ FLASK_APP=lolc_flask.py flask run
 
 @app.route("/get_profile_score/<instance_id>")
 def get_profile_score(instance_id):
+
+    dsn_tns = cx_Oracle.makedsn('104.196.54.49', '1521', 'orcl')
+    conn = cx_Oracle.connect(user='LOLCLOANAPPROVAL', password='P@ssw0rd', dsn=dsn_tns)
+    c = conn.cursor()
+    c.execute('select count(*) from customeraccount')
+    for row in c:
+        print(row)
+    conn.close()
    
     profile_score = 7
 
